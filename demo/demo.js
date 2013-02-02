@@ -399,7 +399,6 @@ Ext.onReady(function() {
                     Ext.getCmp(tickerConfig.id).setMessages(val);
                 }
             });
-            console.log(formConfig);
         }
 
         // Create demo for vertical ticker
@@ -430,14 +429,12 @@ Ext.onReady(function() {
                 fieldLabel: 'Text Rotation',
                 listeners: {
                     change: function(field, newVal) {
-                        console.log(tickerConfig.id);
                         Ext.getCmp(tickerConfig.id).setTextRotation(newVal);
                     }
                 }
             });
         }
 
-        console.log(demoConfig.demoMessage);
         return Ext.create('Ext.form.Panel', formConfig);
     };
 
@@ -448,7 +445,7 @@ Ext.onReady(function() {
         id: 'demo',
         items: [{
             xtype: 'tabpanel',
-            activeTab: 5,
+            activeTab: 0,
             items:[{
                 // First tab - create a simple demo scrolling along the bottom toolbar
                 title: 'Demo 1',
