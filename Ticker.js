@@ -2,9 +2,10 @@
  * @author Joe Kuan 
  * @docauthor Joe Kuan
  * Created and documented by Joe Kuan <kuan.joe@gmail.com> 
+ * Last Updated 2nd Feb 2013
  *
  * Ticker class creates a messages scrolling component that can move horizontally from left to right or vice versa, 
- * or even vertically moving from top to bottom or vice versa. This components can be used as a stock, 
+ * or even vertically moving from top to bottom or vice versa. This component can be used as a stocks, 
  * news or events ticker. The class offers a number of flexibilities and features. Here are some of them:
  *
  * * Supports horizontal and vertical (offers -90 and 90 degree verical facing) scrolling banners with either directions
@@ -72,8 +73,9 @@
  *             }]
  *         }]
  *     });
- * Here is a screenshot of bottom toolbar with stock ticker symbols:
- *
+ * Here is a screenshot of bottom toolbar containing ticker withc stock symbols:
+ * {@img ticker.png}
+ * 
  * # Create categorised multiple stores ticker symbol
  * For categrised (or grouping ticker messages) the {@link #cfg-messageFormat} handler need to be 
  * slighlty different which also returns the group name in the form of array, such as: 
@@ -109,7 +111,8 @@
  *         messageOnClick: function(evt, el, record) {
  *             showStockDetails(record);
  *         }
- * Here is a screenshot showing categorised ticker messages
+ * Here is a screenshot showing categorised ticker messages with 'NYSE' being displayed as a category tag
+ * {@img ticker_group.png}
  *
  * ## Layout & CSS Classes
  * For vertical scrolling ticker, configures the container layout as 'vbox', e.g.

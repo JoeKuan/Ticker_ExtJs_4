@@ -1,1 +1,1 @@
-jsduck Ticker.js --output docs/
+jsduck Ticker.js --images=./images --output docs/
