@@ -2,6 +2,7 @@
  * @author Joe Kuan 
  * @docauthor Joe Kuan
  * Created and documented by Joe Kuan <kuan.joe@gmail.com> 
+ *
  * Last Updated 2nd Feb 2013
  *
  * Ticker class creates a messages scrolling component that can move horizontally from left to right or vice versa, 
@@ -138,6 +139,13 @@ Ext.define("Ext.ux.Ticker", {
     alias: "widget.ticker",
     baseCls : 'x-ticker',
 
+    statics: {
+        /***
+         * Version of the component
+         */
+        version: '1.0'
+    },
+
     config: {
         /***
          * @cfg {Number} [textRotation=-90]
@@ -202,6 +210,11 @@ Ext.define("Ext.ux.Ticker", {
          * object is passed as an opts parameter.
          *     messageOnClick: function(evt, el, record) {
          *         stockDetails(record);
+         *     }
+         * If ticker object is constructed/updated with an array of message strings. The last 
+         * parameter for the handler is just the message string.
+         *     messageOnClick: function(evt, el, msgStr) {
+         *         ....
          *     }
          */
         messageOnClick: null,
@@ -498,8 +511,15 @@ Ext.define("Ext.ux.Ticker", {
         }
     },
 
-    // If msgs is string, then just update element
-    // If object with warn or info fields, then add some color tags
+    /***
+     * setMessages is the main routine to construct ticker messages in different
+     * way. It is called internally from Store timer refresh as well as can be 
+     * used externally to update ticker messages directly.
+     * @param {Array} msgs must be an array of string, the 
+     * ticker content is either constructed as a big text string if 
+     * {@link #cfg-messageOnClick} is not set, or each message is constructed as 
+     * an individual element binded with click handler. 
+     */
     setMessages : function(msgs) {
         if(!this.contentEl) {
             this.contentEl = this.el.createChild({
@@ -539,9 +559,16 @@ Ext.define("Ext.ux.Ticker", {
                 // with the record object
                 if (this.messageOnClick) {
                     Ext.each(msgs, function(message, index) {
+
+                        // Called internally from Store, message would be 
+                        // [ message_string, record_object ]
+                        // Called from externally message must be a string
+                        var msg = Ext.isArray(message) ? message[0] : message;
+                        var record = Ext.isArray(message) ? message[1] : message;
+
                         var el = this.contentEl.createChild({
                             tag: 'span',
-                            html: message[0],
+                            html: msg,
                             cls: (this.messageOnClick) ? 'x-ticker-message x-ticker-messageclick' : 'x-ticker-message'
                         });
 
@@ -552,14 +579,15 @@ Ext.define("Ext.ux.Ticker", {
 
                         // If onlick is defined, then define onclick handler 
                         // with the record object
-                        (this.messageOnClick) && el.on('click', this.messageOnClick, el, message[1]);
+                        (this.messageOnClick) && el.on('click', this.messageOnClick, el, record);
 
                     }, this);
 
                 } else {
                     this.currentMessages = '';
                     Ext.each(msgs, function(message) {
-                        this.currentMessages += this.messageSeparator + message[0]; 
+                        this.currentMessages += this.messageSeparator + 
+                            (Ext.isArray(message) ? message[0] : message); 
                     }, this);
                     this.contentEl.update(this.currentMessages);
                 }
@@ -672,7 +700,6 @@ Ext.define("Ext.ux.Ticker", {
     afterRender : function() {
 
         this.ownerSize = this.ownerCt.getSize();
-        console.log("afterRender ---> " + this.ownerSize.height + ", " + this.ownerSize.width);
 
         this.task = {
             interval : this.getAnimateInterval(),
@@ -705,7 +732,6 @@ Ext.define("Ext.ux.Ticker", {
             this.setMessages(this.messages);
         }
 
-        console.log("autoStart " + this.autoStart);
         if(this.autoStart && this.contentEl) {
             this.status = 'play';
             Ext.TaskManager.start(this.task);
