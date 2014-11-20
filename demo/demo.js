@@ -8,30 +8,30 @@ Ext.Loader.setConfig({
 Ext.require('Ext.ux.Ticker');
 
 Ext.onReady(function() {
-    
+
     // Ticker direction
     Ext.define("TickerDirection", {
         extend: "Ext.data.Model",
         fields: [ "direction" ]
-    }); 
+    });
 
     Ext.define("TextRotation", {
         extend: "Ext.data.Model",
         fields: [ "degree" ]
-    }); 
-    
-    // Stock price demo 
+    });
+
+    // Stock price demo
     Ext.define("StockPrice", {
         extend: "Ext.data.Model",
-        fields: [ "symbol", 
-                  { name: "price", type: "float" }, 
+        fields: [ "symbol",
+                  { name: "price", type: "float" },
                   { name: "change", type: "float" },
                   "percent", "exchange"
                 ]
     });
 
     var stockStores = [];
-    var marketSymbols = [ "GOOG AAPL MSFT YHOO", "GOOG AAPL MSFT YHOO", 
+    var marketSymbols = [ "GOOG AAPL MSFT YHOO", "GOOG AAPL MSFT YHOO",
                           "HPQ AMD SNE CRM", "BATS.L NG.L RR.L BA.L" ];
     Ext.each(marketSymbols, function(symbols) {
         stockStores.push(Ext.create("Ext.data.Store", {
@@ -93,7 +93,7 @@ Ext.onReady(function() {
         } else {
             percent = "<font color='red'>" + percent + "</font>";
         }
-        return [ record.data.exchange, 
+        return [ record.data.exchange,
                  record.data.symbol + ": " + record.data.price + " " + change + " " + percent ];
     };
 
@@ -109,7 +109,7 @@ Ext.onReady(function() {
                 layout: 'fit',
             items:[{
                 xtype: 'panel',
-                html : '<iframe width ="100%" height="100%" src="' + url + 
+                html : '<iframe width ="100%" height="100%" src="' + url +
                     '"><p>Your browser does not support iframes.</p></iframe>'
             }]
         }).show();
@@ -139,7 +139,7 @@ Ext.onReady(function() {
             }, {
                 xtype: 'tbspacer',
                 height: 10
-                
+
             }, {
                 // Speed
                 xtype: 'numberfield',
@@ -222,7 +222,7 @@ Ext.onReady(function() {
                         Ext.getCmp(tickerConfig.id).setMessageSeparator(field.getValue());
                     }
                 }
-            }], 
+            }],
             buttons:[{
                 xtype: 'button',
                 checked: true,
@@ -276,12 +276,12 @@ Ext.onReady(function() {
         // Include toolbar buttons demo
         if (demoConfig.toolbarButtons) {
             formConfig.dockedItems[0].items = formConfig.dockedItems[0].items.concat([
-                '-', { 
+                '-', {
                     text: 'NASDAQ',
                     id: 'nasdaq',
                     pressed: true,
                     allowDepress: false,
-                    toggleGroup: 'market', 
+                    toggleGroup: 'market',
                     toggleHandler: function(button, pressed) {
                         Ext.getCmp(tickerConfig.id).stop(true);
                         stockStore.getProxy().extraParams.s = "GOOG AAPL MSFT YHOO";
@@ -297,7 +297,7 @@ Ext.onReady(function() {
                     text: 'NYSE',
                     id: 'nyse',
                     allowDepress: false,
-                    toggleGroup: 'market', 
+                    toggleGroup: 'market',
                     toggleHandler: function(button, pressed) {
                         Ext.getCmp(tickerConfig.id).stop(true);
                         stockStore.getProxy().extraParams.s = "HPQ AMD SNE CRM";
@@ -313,7 +313,7 @@ Ext.onReady(function() {
                     text: 'FTSE',
                     id: 'ftse',
                     allowDepress: false,
-                    toggleGroup: 'market', 
+                    toggleGroup: 'market',
                     toggleHandler: function(button, pressed) {
                         Ext.getCmp(tickerConfig.id).stop(true);
                         stockStore.getProxy().extraParams.s = "BATS.L NG.L RR.L BA.L";
@@ -524,7 +524,7 @@ Ext.onReady(function() {
                 },
                 frame: true,
                 border: false,
-                items:[ 
+                items:[
                     tickerDemo({
                         demoMessage: 'Ticker messages scroll vertically',
                         demoId: 3
@@ -550,7 +550,7 @@ Ext.onReady(function() {
                         Ext.getCmp('ticker_demo_4').stop();
                     }
                 },
-                items:[ 
+                items:[
                     tickerDemo({
                         demoMessage: "This demo tests the ticker component setup without store. Messages are setup manually. Disable pause on mousehover. Click 'Play' to start the ticker.",
                         // Fixate the field to avoid violation
@@ -564,7 +564,7 @@ Ext.onReady(function() {
                         id: 'ticker_demo_4',
                         autoStart: false,
                         pauseOnMouseOver: false,
-                        messages: [ "This demo tests the ticker component setup without store.", 
+                        messages: [ "This demo tests the ticker component setup without store.",
                                     "Messages are setup manually.",
                                     "Disable pause on mousehover.",
                                     "Click 'Play' to start the ticker."
@@ -586,7 +586,7 @@ Ext.onReady(function() {
                         Ext.getCmp('ticker_demo_5').stop();
                     }
                 },
-                items:[ 
+                items:[
                     tickerDemo({
                         demoMessage: "Ticker messages are categorised into groups with a group tag with multiple stores support. Each stock symbol also responds to click action",
                         demoId: 5
@@ -627,15 +627,15 @@ Ext.onReady(function() {
                     deactivate: function(tab) {
                         Ext.getCmp('ticker_demo_6_1').stop();
                         Ext.getCmp('ticker_demo_6_2').stop();
-                        Ext.getCmp('ticker_demo_6_3').stop();                        
+                        Ext.getCmp('ticker_demo_6_3').stop();
                     }
                 },
-                items:[ 
+                items:[
                     tickerDemo({
                         demoMessage: "Multiple bottom toolbars, each associated with a ticker and a store",
                         multipleToolbars: true,
                         demoId: 6,
-                        tbsTextLabel: [{ 
+                        tbsTextLabel: [{
                             xtype: 'label', text: 'Nasdaq', cls: 'x-ticker-nasdaq'
                         }, {
                             xtype: 'label', text: 'NYSE', cls: 'x-ticker-nyse'
