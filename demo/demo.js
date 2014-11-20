@@ -1,14 +1,27 @@
+if (window.App) {
+    App.view.items_ShortcutsOther.push(
+    {
+        text:
+'<img height="64" width="128" src="' + App.backendURL +
+'/Ticker_ExtJs_4/images/ticker.png"/>' +
+'<br/>joekuan.org<br/>' +
+'Ticker for ExtJs 4<br/>',
+        height: 110,
+        tooltip: 'joekuan.org "Ticker for ExtJs 4"',
+        handler: open_Ticker
+    });
+    Ext.Loader.setPath('Ext.ux.Ticker', App.backendURL + '/Ticker_ExtJs_4/Ticker.js')
+} else
 Ext.Loader.setConfig({
     enabled:true,
     paths: {
         'Ext.ux': './'
     }
-});
+}),
+Ext.onReady(open_Ticker);
 
-Ext.require('Ext.ux.Ticker');
-
-Ext.onReady(function() {
-
+function open_Ticker() {
+    Ext.Loader.syncRequire('Ext.ux.Ticker');
     // Ticker direction
     Ext.define("TickerDirection", {
         extend: "Ext.data.Model",
@@ -33,15 +46,16 @@ Ext.onReady(function() {
     var stockStores = [];
     var marketSymbols = [ "GOOG AAPL MSFT YHOO", "GOOG AAPL MSFT YHOO",
                           "HPQ AMD SNE CRM", "BATS.L NG.L RR.L BA.L" ];
-    Ext.each(marketSymbols, function(symbols) {
+    Ext.each(marketSymbols, function(symbols, index) {
         stockStores.push(Ext.create("Ext.data.Store", {
             model: "StockPrice",
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: 'demo/stock.php',
+                url: !window.App ? 'demo/stock.php' :
+                     App.backendURL + '/Ticker_ExtJs_4/demo/stock' + index + '.json',
                 actionMethods : {
-                    read: 'POST'
+                    read: window.App ? 'GET' : 'POST'
                 },
                 reader: {
                     type: 'json',
@@ -438,8 +452,9 @@ Ext.onReady(function() {
         return Ext.create('Ext.form.Panel', formConfig);
     };
 
-    var win = Ext.create('Ext.window.Window', {
-        closable: false,
+    Ext.create(window.App ? 'App.view.Window' : 'Ext.window.Window', {
+        closable: !false,
+        wmTooltip: 'Ticker Demos',
         title: 'Ticker Demos',
         layout: 'fit',
         id: 'demo',
@@ -667,5 +682,4 @@ Ext.onReady(function() {
     }).show();
 
     // Ext.getCmp('ticker_demo').start();
-
-});
+}
