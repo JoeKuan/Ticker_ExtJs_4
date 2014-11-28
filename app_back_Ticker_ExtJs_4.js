@@ -11,6 +11,11 @@ var name = '/Ticker_ExtJs_4/'
         '/demo/stock.php': true// permission for API call to prevent any unauthorized access
     }
     cfg.rbac.roles = {
+        'test.default':[
+            'module.Ticker_ExtJs_4',// allow loading module
+            '/demo/stock.php',// allow api
+            'Module.Ticker_ExtJs_4.Ticker'// allow loading of 'Ext.ux.Ticker' component
+        ],
         'developer.local':[// add permission to existing role
             '/demo/stock.php',// allow api, but this role has special all '/*/lib' access
             'Module.Ticker_ExtJs_4.Ticker'// prefix 'Module' is arbitrary actually

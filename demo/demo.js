@@ -1,5 +1,5 @@
 if (window.App) {
-    App.view.items_ShortcutsOther.push(
+    App.view.items_ShortcutsOther = Ext.Array.push(App.view.items_ShortcutsOther || [],[
     {
         text:
 '<img height="64" width="128" src="' + App.backendURL +
@@ -9,7 +9,7 @@ if (window.App) {
         height: 110,
         tooltip: 'joekuan.org "Ticker for ExtJs 4"',
         handler: open_Ticker
-    });
+    }]);
     Ext.Loader.setPath('Ext.ux.Ticker', App.backendURL + '/Ticker_ExtJs_4/Ticker.js')
 } else
 Ext.Loader.setConfig({
