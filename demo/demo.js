@@ -52,10 +52,12 @@ function open_Ticker() {
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: !window.App ? 'demo/stock.php' :
-                     App.backendURL + '/Ticker_ExtJs_4/demo/stock' + index + '.json',
+                url: 'demo/stock.php',
+                pageParam: void 0,
+                limitParam: void 0,
+                startParam: void 0,
                 actionMethods : {
-                    read: window.App ? 'GET' : 'POST'
+                    read: 'POST'
                 },
                 reader: {
                     type: 'json',
