@@ -46,7 +46,7 @@ var name = '/Ticker_ExtJs_4/'
             csv += chunk
         }
         function ret_data(e){
-        var i, p, rows = csv.split('\r\n')
+        var i, p, rows = csv.split('\n')
 
             if(!e && (!rows[0] || !rows[1])){// check if api response has no error
                 e = !rows[0] ? 'API error' : rows[0]// Missing Symbols List.

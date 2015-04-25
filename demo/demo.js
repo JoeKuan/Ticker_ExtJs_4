@@ -52,7 +52,7 @@ function open_Ticker() {
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: 'demo/stock.php',
+                url: (window.App ? App.backendURL : '') + '/demo/stock.php',
                 pageParam: void 0,
                 limitParam: void 0,
                 startParam: void 0,
