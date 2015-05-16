@@ -554,6 +554,9 @@ Ext.define("Ext.ux.Ticker", {
             this.grpEls = [];
 
             if (Ext.isArray(msgs)) {
+                if (!msgs.length) {
+                    msgs.push('no data available');
+                }
                 // Array of normal ticker messages
                 // If onlick is defined, then define onclick handler 
                 // with the record object
@@ -655,7 +658,7 @@ Ext.define("Ext.ux.Ticker", {
                 }, this);
 
             } else if (Ext.isString(msgs)) {
-                this.currentMessages = msgs;  
+                this.currentMessages = msgs || 'no data available';
                 this.contentEl.update(this.currentMessages);
             }
             this.log(this.currentMessages);
