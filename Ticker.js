@@ -700,14 +700,19 @@ Ext.define("Ext.ux.Ticker", {
 
     },
 
+    task: null,
+    taskRunner: void 0,
+
     afterRender : function() {
 
         this.ownerSize = this.ownerCt.getSize();
 
         this.task = {
+            run: void 0,// filled by `setPosInfo()`
             interval : this.getAnimateInterval(),
             scope : this
         };
+        this.taskRunner = new Ext.util.TaskRunner(this.task.interval);
 
         // Setup delay task for the store reload timer
         this.reloadTask = new Ext.util.DelayedTask(function(){
@@ -737,7 +742,7 @@ Ext.define("Ext.ux.Ticker", {
 
         if(this.autoStart && this.contentEl) {
             this.status = 'play';
-            Ext.TaskManager.start(this.task);
+            this.taskRunner.start(this.task);
         } 
     },
 
@@ -773,7 +778,7 @@ Ext.define("Ext.ux.Ticker", {
     // Stop scroll and clear the content
     pause : function() {
         if(this.task) {
-            Ext.TaskManager.stop(this.task);
+            this.taskRunner.stop(this.task);
             this.status = 'pause';
         }
     },
@@ -785,7 +790,7 @@ Ext.define("Ext.ux.Ticker", {
      */
     stop : function(removeCache) {
         if(this.task) {
-            Ext.TaskManager.stop(this.task);
+            this.taskRunner.stop(this.task);
             this.status = 'stop';
         }
 
@@ -833,7 +838,7 @@ Ext.define("Ext.ux.Ticker", {
                             scope: this,
                             callback: function() {
                                 this.initMessagePos();
-                                Ext.TaskManager.start(this.task);
+                                this.taskRunner.start(this.task);
                                 this.status = 'play';
                             }
                         });
@@ -856,14 +861,14 @@ Ext.define("Ext.ux.Ticker", {
             // Start the animateInterval call - this just resumes the scroller
             this.log("Ticker " + this.id + " : start - rendered. Animate interval " + 
                      this.task.interval + ". Resume: " + resume);
-            Ext.TaskManager.start(this.task);
+            this.taskRunner.start(this.task);
             this.status = 'play';
         }
     },
 
     onDestroy : function() {
         if(this.task) {
-            Ext.TaskManager.stop(this.task);
+            this.taskRunner.destroy();
         }
         this.callParent(arguments);
     },
