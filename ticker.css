@@ -1,0 +1,22 @@
+/* from index.html */
+    .x-ticker-wrap {
+        overflow: hidden;
+    }
+    .x-ticker-nasdaq {
+        background-color: #43B1E6;
+        font-weight: bold; color: #FFFFFF;
+        padding: 0 4px 0 4px;
+    }
+    .x-ticker-nyse {
+        background-color: #007d7d;
+        font-weight: bold; color: #FFFFFF;
+        padding: 0 4px 0 4px;
+    }
+    .x-ticker-ftse {
+        background-color: #FA0;
+        font-weight: bold; color: #FFFFFF;
+        padding: 0 4px 0 4px;
+    }
+    .x-ticker-messageclick {
+        cursor: pointer;
+    }
